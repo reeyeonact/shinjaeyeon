@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>나의 고등학교 포트폴리오</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: '나눔고딕', '맑은 고딕', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        /* 헤더 부분 */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        /* 메인 콘텐츠 */
+        .content {
+            padding: 40px;
+        }
+
+        /* 입력 폼 섹션 */
+        .input-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="date"],
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            font-family: inherit;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+        }
+
+        /* 파일 업로드 영역 */
+        .file-upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            background: #f0f4ff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload-area:hover {
+            border-color: #764ba2;
+            background: #e8edff;
+        }
+
+        .file-upload-area.dragover {
+            border-color: #764ba2;
+            background: #e8edff;
+            transform: scale(1.02);
+        }
+
+        .file-upload-area input[type="file"] {
+            display: none;
+        }
+
+        .file-upload-area p {
+            font-size: 1.1em;
+            color: #667eea;
+            margin: 0;
+        }
+
+        .file-upload-area small {
+            display: block;
+            color: #999;
+            margin-top: 10px;
+        }
+
+        /* 버튼 */
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn-add {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-add:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-clear {
+            background: #ddd;
+            color: #333;
+        }
+
+        .btn-clear:hover {
+            background: #ccc;
+        }
+
+        /* 포트폴리오 갤러리 섹션 */
+        .portfolio-section {
+            margin-top: 40px;
+        }
+
+        .portfolio-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        /* 포트폴리오 카드 */
+        .portfolio-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .portfolio-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .portfolio-preview {
+            width: 100%;
+            height: 200px;
+            background: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 3em;
+            overflow: hidden;
+        }
+
+        .portfolio-preview img,
+        .portfolio-preview video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .portfolio-info {
+            padding: 15px;
+        }
+
+        .portfolio-info h3 {
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 1.1em;
+        }
+
+        .portfolio-info p {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .portfolio-date {
+            color: #999;
+            font-size: 0.85em;
+            margin-bottom: 10px;
+        }
+
+        .portfolio-category {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            margin-bottom: 10px;
+        }
+
+        .portfolio-files {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .file-link {
+            display: inline-block;
+            background: #764ba2;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 0.85em;
+            transition: all 0.2s ease;
+        }
+
+        .file-link:hover {
+            background: #667eea;
+            text-decoration: none;
+        }
+
+        .delete-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.2s ease;
+        }
+
+        .delete-btn:hover {
+            background: #ff5252;
+        }
+
+        /* 빈 상태 메시지 */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+
+        .empty-state p {
+            font-size: 1.1em;
+        }
+
+        /* 반응형 디자인 */
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 헤더 -->
+        <div class="header">
+            <h1>📚 나의 고등학교 포트폴리오</h1>
+            <p>소중한 순간들을 기록하세요</p>
+        </div>
+
+        <!-- 메인 콘텐츠 -->
+        <div class="content">
+            <!-- 입력 폼 섹션 -->
+            <div class="input-section">
+                <h2 style="margin-bottom: 20px; color: #333;">✨ 새로운 포트폴리오 추가하기</h2>
+                
+                <form id="portfolioForm">
+                    <!-- 제목 입력 -->
+                    <div class="form-group">
+                        <label for="title">📝 제목 (필수)</label>
+                        <input type="text" id="title" placeholder="예: 과학 프로젝트, 미술 작품 등" required>
+                    </div>
+
+                    <!-- 설명 입력 -->
+                    <div class="form-group">
+                        <label for="description">💬 설명</label>
+                        <textarea id="description" placeholder="이 프로젝트나 작품에 대해 설명해주세요"></textarea>
+                    </div>
+
+                    <!-- 날짜 선택 -->
+                    <div class="form-group">
+                        <label for="date">📅 날짜</label>
+                        <input type="date" id="date">
+                    </div>
+
+                    <!-- 카테고리 선택 -->
+                    <div class="form-group">
+                        <label for="category">🏷️ 카테고리</label>
+                        <select id="category">
+                            <option value="1학년">1학년</option>
+                            <option value="2학년">2학년</option>
+                            <option value="3학년">3학년</option>
+                            <option value="동아리">동아리</option>
+                            <option value="상장">상장</option>
+                            <option value="기타">기타</option>
+                        </select>
+                    </div>
+
+                    <!-- 파일 업로드 -->
+                    <div class="form-group">
+                        <label>📁 파일 업로드</label>
+                        <div class="file-upload-area" id="fileUploadArea">
+                            <p>클릭 또는 드래그해서 파일을 업로드하세요</p>
+                            <small>이미지, 영상, PDF, 문서 등 모든 파일 가능</small>
+                            <input type="file" id="fileInput" multiple>
+                        </div>
+                        <div id="fileList" style="margin-top: 15px;"></div>
+                    </div>
+
+                    <!-- 버튼 그룹 -->
+                    <div class="button-group">
+                        <button type="submit" class="btn-add">✅ 추가하기</button>
+                        <button type="reset" class="btn-clear">🗑️ 초기화</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- 포트폴리오 갤러리 -->
+            <div class="portfolio-section">
+                <h2>🎨 나의 포트폴리오</h2>
+                <div id="portfolioContainer"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 포트폴리오 데이터를 저장할 배열
+        let portfolioData = JSON.parse(localStorage.getItem('portfolioData')) || [];
+
+        // 파일 업로드 영역 설정
+        const fileUploadArea = document.getElementById('fileUploadArea');
+        const fileInput = document.getElementById('fileInput');
+        let selectedFiles = [];
+
+        // 클릭으로 파일 선택
+        fileUploadArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        // 드래그해서 파일 놓기
+        fileUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUploadArea.classList.add('dragover');
+        });
+
+        fileUploadArea.addEventListener('dragleave', () => {
+            fileUploadArea.classList.remove('dragover');
+        });
+
+        fileUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUploadArea.classList.remove('dragover');
+            selectedFiles = Array.from(e.dataTransfer.files);
+            displaySelectedFiles();
+        });
+
+        // 파일 선택 시
+        fileInput.addEventListener('change', (e) => {
+            selectedFiles = Array.from(e.target.files);
+            displaySelectedFiles();
+        });
+
+        // 선택된 파일 표시
+        function displaySelectedFiles() {
+            const fileList = document.getElementById('fileList');
+            fileList.innerHTML = '';
+
+            if (selectedFiles.length === 0) {
+                fileList.innerHTML = '<p style="color: #999;">선택된 파일이 없습니다</p>';
+                return;
+            }
+
+            selectedFiles.forEach((file, index) => {
+                const fileItem = document.createElement('div');
+                fileItem.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 10px; background: white; border-radius: 5px; margin-bottom: 8px; border: 1px solid #ddd;';
+                fileItem.innerHTML = `
+                    <span style="flex: 1; color: #333;"><strong>📄 ${file.name}</strong> (${(file.size / 1024).toFixed(2)} KB)</span>
+                    <button type="button" onclick="removeFile(${index})" style="background: #ff6b6b; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer;">제거</button>
+                `;
+                fileList.appendChild(fileItem);
+            });
+        }
+
+        // 파일 제거
+        function removeFile(index) {
+            selectedFiles.splice(index, 1);
+            displaySelectedFiles();
